@@ -32,14 +32,14 @@ sudo hostnamectl set-hostname etcdnode
 sudo apt install net-tools
 sudo apt -y install etcd
 
-#setup etcd proxy [HAPROXY VM]
+# setup etcd proxy [HAPROXY VM]
 
 sudo apt update
 sudo hostnamectl set-hostname haproxynode
 sudo apt install net-tools
 sudo apt -y install haproxy
 
-#Configure etcd on the etcdnode: 
+# Configure etcd on the etcdnode: 
 sudo nano /etc/default/etcd
 
 ETCD_LISTEN_PEER_URLS="http://<etcdnode_ip>:2380"
@@ -65,7 +65,7 @@ sudo systemctl restart etcd
 sudo systemctl status etcd
 curl http://<etcdnode_ip>:2380/members
 
-#Configure Patroni on the node-1, on the node-2 and on the node-3:
+# Configure Patroni on the node-1, on the node-2 and on the node-3:
 sudo nano /etc/patroni.yml
 ---
 scope: postgres
@@ -137,8 +137,9 @@ sudo chown postgres:postgres /data/patroni
 
 sudo chmod 700 /data/patroni 
 
-sudo vi /etc/systemd/system/patroni.service
+sudo nano /etc/systemd/system/patroni.service
 
+---
 [Unit]
 Description=High availability PostgreSQL Cluster
 After=syslog.target network.target
@@ -158,7 +159,7 @@ WantedBy=multi-user.targ
 #Start Patroni service on the node1, on the node2 and on the node3
 sudo systemctl start patroni
 sudo systemctl status patroni
-
+---
 
 
 
